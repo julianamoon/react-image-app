@@ -10,9 +10,15 @@ const SearchForm = () => {
     setSearchTerm(searchValue);
   };
 
+  const refresh = () => {
+    window.location.reload();
+  };
+
   return (
     <section>
-      <h1 className="title">Unsplash Images</h1>
+      <h1 className="title" onClick={refresh}>
+        Unsplash Images
+      </h1>
 
       <form className="search-form" onSubmit={handleSubmit}>
         <input

@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useGlobalContext } from "./context";
+import { useEffect, useState } from "react";
+import Buttons from "./Buttons";
 
 const url = `https://api.unsplash.com/search/photos?client_id=${
   import.meta.env.VITE_API_KEY
@@ -8,10 +10,14 @@ const url = `https://api.unsplash.com/search/photos?client_id=${
 
 const Gallery = () => {
   const { searchTerm } = useGlobalContext();
+  const [page, setPage] = useState(1);
+
   const response = useQuery({
-    queryKey: ["images", searchTerm],
+    queryKey: ["images", searchTerm, page],
     queryFn: async () => {
-      const result = await axios.get(`${url}&query=${searchTerm}`);
+      const result = await axios.get(
+        `${url}&query=${searchTerm}&per_page=9&page=${Number(page)}`
+      );
       return result.data;
     },
   });
@@ -41,19 +47,23 @@ const Gallery = () => {
   }
 
   return (
-    <section className="image-container">
-      {results.map((item) => {
-        const url = item?.urls?.regular;
-        return (
-          <img
-            src={url}
-            key={item.id}
-            alt={item.alt_description}
-            className="img"
-          />
-        );
-      })}
-    </section>
+    <>
+      <section className="image-container">
+        {results.map((item) => {
+          const url = item?.urls?.regular;
+          return (
+            <img
+              src={url}
+              key={item.id}
+              alt={item.alt_description}
+              className="img"
+              onClick={() => window.open(item.urls.full)}
+            />
+          );
+        })}
+        <Buttons response={response} page={page} setPage={setPage} />
+      </section>
+    </>
   );
 };
 
