@@ -1,6 +1,6 @@
 # Unsplash Images App
 
-Dummy tourism website.<br/>
+Dummy search website.<br/>
 [Live Preview](https://unsplash-search-project.netlify.app/)
 <br/><br/>
 ![screenshot](./src/assets/unsplash-app.png)
